@@ -1,0 +1,647 @@
+/* ============================================
+   ANALYST — Design System "Trading Terminal"
+   Pas d'arrondis. Pas de dégradés. Pas d'ombres.
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/* --- Tokens --- */
+:root {
+  /* Backgrounds */
+  --bg-primary: #0a0e17;
+  --bg-secondary: #131722;
+  --bg-tertiary: #1e222d;
+  --bg-hover: #2a2e39;
+
+  /* Borders */
+  --border-color: #2a2e39;
+  --border-active: #3a3e49;
+
+  /* Text */
+  --text-primary: #d1d4dc;
+  --text-secondary: #787b86;
+  --text-muted: #4a4e59;
+  --text-bright: #f0f0f0;
+
+  /* Semantic */
+  --color-up: #26a69a;
+  --color-down: #ef5350;
+  --color-flat: #787b86;
+  --color-accent: #2962ff;
+  --color-warning: #ff9800;
+  --color-danger: #f44336;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+}
+
+/* --- Reset --- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 0 !important;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Hamburger menu button (mobile only) --- */
+.menu-btn {
+  display: none;
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 18px;
+  width: 32px;
+  height: 28px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.menu-btn:hover {
+  background: var(--bg-hover);
+}
+
+/* --- Sidebar overlay (mobile) --- */
+.sidebar-overlay {
+  display: none;
+}
+
+/* --- Layout --- */
+.app-layout {
+  display: grid;
+  grid-template-rows: 40px 1fr;
+  grid-template-columns: 320px 1fr;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* --- Header --- */
+.header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-lg);
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  height: 40px;
+}
+
+.header__logo {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-bright);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.header__clock {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+}
+
+.header__clock span {
+  color: var(--text-muted);
+  margin-left: var(--space-xs);
+}
+
+/* --- Sidebar (Liste événements) --- */
+.sidebar {
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar__title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.event-item {
+  display: flex;
+  align-items: stretch;
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.event-item:hover {
+  background: var(--bg-tertiary);
+}
+
+.event-item--active {
+  background: var(--bg-tertiary);
+  border-left: 2px solid var(--color-accent);
+}
+
+.event-item__indicator {
+  width: 3px;
+  margin-right: var(--space-md);
+  flex-shrink: 0;
+}
+
+.event-item__indicator--high { background: var(--color-danger); }
+.event-item__indicator--medium { background: var(--color-warning); }
+.event-item__indicator--low { background: var(--text-muted); }
+
+.event-item__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.event-item__name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 2px;
+}
+
+.event-item__meta {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.event-item__countdown {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  margin-left: var(--space-sm);
+  white-space: nowrap;
+}
+
+/* --- Main Panel (Analyse) --- */
+.main-panel {
+  background: var(--bg-primary);
+  overflow-y: auto;
+  padding: var(--space-xl);
+}
+
+.main-panel__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-family: var(--font-mono);
+}
+
+/* --- Analysis Header --- */
+.analysis-header {
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.analysis-header__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: var(--space-sm);
+}
+
+.analysis-header__subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.analysis-header__surprise {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--border-color);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.analysis-header__surprise--positive {
+  color: var(--color-up);
+  border-color: var(--color-up);
+}
+
+.analysis-header__surprise--negative {
+  color: var(--color-down);
+  border-color: var(--color-down);
+}
+
+/* --- Probability Table --- */
+.prob-section {
+  margin-bottom: var(--space-xl);
+}
+
+.prob-section__title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: var(--space-md);
+}
+
+.prob-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.prob-table th {
+  text-align: left;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.prob-table td {
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: top;
+}
+
+.prob-table tr:hover td {
+  background: var(--bg-secondary);
+}
+
+.prob-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.prob-cell__value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.prob-cell__value--up { color: var(--color-up); }
+.prob-cell__value--down { color: var(--color-down); }
+.prob-cell__value--flat { color: var(--color-flat); }
+
+.prob-cell__sample {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.prob-cell__instrument {
+  color: var(--text-bright);
+  font-weight: 600;
+}
+
+/* --- Warning badge --- */
+.warning-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 2px var(--space-sm);
+  border: 1px solid var(--color-warning);
+  color: var(--color-warning);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  margin-top: var(--space-xs);
+}
+
+/* --- Explanation Text --- */
+.explanation {
+  padding: var(--space-lg);
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  margin-bottom: var(--space-xl);
+}
+
+.explanation__icon {
+  color: var(--color-accent);
+  margin-right: var(--space-sm);
+}
+
+.explanation__text {
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.7;
+}
+
+.explanation__text strong {
+  color: var(--text-bright);
+}
+
+.explanation__text .up { color: var(--color-up); font-weight: 600; }
+.explanation__text .down { color: var(--color-down); font-weight: 600; }
+
+/* --- Distribution Chart --- */
+.chart-section {
+  margin-bottom: var(--space-xl);
+}
+
+.chart-section__title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: var(--space-md);
+}
+
+.chart-container {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: var(--space-lg);
+  height: 250px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.chart-bar {
+  flex: 1;
+  min-width: 0;
+  transition: opacity 0.15s;
+  position: relative;
+}
+
+.chart-bar:hover {
+  opacity: 0.8;
+}
+
+.chart-bar__fill {
+  width: 100%;
+}
+
+.chart-bar__fill--up { background: var(--color-up); }
+.chart-bar__fill--down { background: var(--color-down); }
+
+.chart-bar__label {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+  position: absolute;
+  bottom: -18px;
+  left: 0;
+  right: 0;
+}
+
+.chart-legend {
+  display: flex;
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.chart-legend__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.chart-legend__color {
+  width: 12px;
+  height: 12px;
+}
+
+/* --- Scrollbar (style trading) --- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-active);
+}
+
+/* --- Blink animation for live data --- */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.blink {
+  animation: blink 1s ease-in-out;
+}
+
+/* --- Status dot --- */
+.status-dot {
+  width: 6px;
+  height: 6px;
+  display: inline-block;
+  margin-right: var(--space-sm);
+}
+
+.status-dot--live {
+  background: var(--color-up);
+  animation: blink 2s infinite;
+}
+
+/* ============================================
+   RESPONSIVE
+   Mobile < 768px | Tablet 768-1024px | Desktop > 1024px
+   ============================================ */
+
+/* --- Tablet (768px - 1024px) --- */
+@media (max-width: 1024px) {
+  .app-layout {
+    grid-template-columns: 260px 1fr;
+  }
+
+  .main-panel {
+    padding: var(--space-lg);
+  }
+
+  .prob-table {
+    font-size: 11px;
+  }
+
+  .prob-cell__value {
+    font-size: 14px;
+  }
+}
+
+/* --- Mobile (< 768px) --- */
+@media (max-width: 768px) {
+  html, body, #root {
+    overflow: auto;
+  }
+
+  .app-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: 44px 1fr;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  /* Show hamburger */
+  .menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Header */
+  .header {
+    height: 44px;
+    padding: 0 var(--space-md);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header__clock span {
+    display: none;
+  }
+
+  /* Sidebar becomes an overlay drawer */
+  .sidebar {
+    position: fixed;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+    border-right: none;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+  }
+
+  .sidebar--open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 80;
+  }
+
+  .sidebar-overlay--visible {
+    display: block;
+  }
+
+  /* Main panel */
+  .main-panel {
+    padding: var(--space-md);
+    overflow-y: visible;
+  }
+
+  .main-panel__empty {
+    height: 50vh;
+    font-size: 13px;
+  }
+
+  /* Analysis header */
+  .analysis-header__title {
+    font-size: 16px;
+  }
+
+  /* Probability table: horizontal scroll */
+  .prob-section {
+    overflow-x: auto;
+  }
+
+  .prob-table {
+    min-width: 500px;
+    font-size: 11px;
+  }
+
+  .prob-cell__value {
+    font-size: 13px;
+  }
+
+  /* Explanation */
+  .explanation {
+    padding: var(--space-md);
+  }
+
+  .explanation__text {
+    font-size: 12px;
+  }
+
+  /* Chart */
+  .chart-container {
+    height: 180px;
+    padding: var(--space-md);
+  }
+
+  .chart-bar__label {
+    font-size: 8px;
+  }
+
+  .chart-legend {
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    font-size: 10px;
+  }
+}
+
+/* --- Small mobile (< 400px) --- */
+@media (max-width: 400px) {
+  .header__logo {
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  .header__clock {
+    font-size: 10px;
+  }
+
+  .prob-table {
+    min-width: 420px;
+  }
+}

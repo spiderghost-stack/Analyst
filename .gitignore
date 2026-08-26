@@ -1,0 +1,9 @@
+node_modules/
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+backend/market_reactions.db
+.DS_Store
+dist/
+.vscode/
