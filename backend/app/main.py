@@ -24,10 +24,11 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Analyst API", version="1.0.0")
 
-# CORS : autoriser le frontend (localhost:5173) à appeler l'API
+# CORS : autoriser le frontend à appeler l'API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=["*"],  # Permet à Render (et localhost) d'accéder à l'API
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
